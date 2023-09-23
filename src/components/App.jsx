@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Movies from './components/Movies';
-import MovieDetails from './components/MovieDetails';
-import Cast from './components/Cast';
-import Reviews from './components/Reviews';
+import Home from './Home/Home.jsx';
+import Movies from './Movies/Movies.jsx';
+import MovieDetails from './MovieDetails/MovieDetails.jsx';
+import Cast from './Cast/Cast.jsx';
+import Reviews from './Reviews/Reviews.jsx';
 
 export const App = () => {
   return (
