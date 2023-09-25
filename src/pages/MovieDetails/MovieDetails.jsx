@@ -4,7 +4,7 @@ import {
   getMovieDetails,
   getMovieCredits,
   getMovieReviews,
-} from '../services/api'; // Importuj funkcje do pobierania informacji o filmie
+} from '../../services/api'; // Importuj funkcje do pobierania informacji o filmie
 import styles from './MovieDetails.module.css';
 
 const MovieDetails = () => {

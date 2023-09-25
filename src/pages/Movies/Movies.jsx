@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { searchMovies } from '../services/api'; // Importuj funkcję do wyszukiwania filmów
+import { searchMovies } from '../../services/api'; // Importuj funkcję do wyszukiwania filmów
 import styles from './Movies.module.css';
 
 const Movies = () => {

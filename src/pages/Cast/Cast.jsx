@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getMovieCredits } from '../services/api'; // Importuj funkcję do pobierania informacji o zespole aktorskim
+import { getMovieCredits } from '../../services/api'; // Importuj funkcję do pobierania informacji o zespole aktorskim
 import styles from './Cast.module.css';
 
 const Cast = () => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getTrendingMovies } from '../services/api'; // Importuj funkcję do pobierania popularnych filmów
+import { getTrendingMovies } from '../../services/api'; // Importuj funkcję do pobierania popularnych filmów
 import styles from './Home.module.css';
 const Home = () => {
   const [movies, setMovies] = useState([]);

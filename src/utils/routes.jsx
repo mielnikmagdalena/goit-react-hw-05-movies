@@ -2,6 +2,7 @@ import Movies from './components/Movies';
 import MovieDetails from './components/MovieDetails';
 import Cast from './components/Cast';
 import Reviews from './components/Reviews';
+import { Routes, Route } from 'react-router-dom';
 const AppRoutes = () => {
   return (
     <Routes>
