@@ -1,6 +1,6 @@
 // services/api.js
 
-const API_KEY = '904ef6f007cb228dd6ac008b3d697336'; // Zastąp 'YOUR_API_KEY' własnym kluczem API
+const API_KEY = '904ef6f007cb228dd6ac008b3d697336';
 
 // Funkcja do wykonania zapytania GET na podstawie podanego endpointu
 const fetchData = async endpoint => {
