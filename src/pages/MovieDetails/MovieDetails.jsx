@@ -11,6 +11,8 @@ import styles from './MovieDetails.module.css';
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
+  const [cast, setCast] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -29,6 +31,7 @@ const MovieDetails = () => {
 
     fetchMovieData();
   }, [movieId]);
+  console.log(cast, reviews);
 
   return (
     <div className={styles.container}>
