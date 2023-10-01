@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Popular Movies</h1>
+      <h1>Home</h1>
       <ul className={styles.movieList}>
         {movies.map(movie => (
           <li key={movie.id} className={styles.movieCard}>
