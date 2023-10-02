@@ -5,19 +5,18 @@
 .link-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px; /* Dodaj odstęp między linkami */
+  margin-bottom: 20px;
 }
 
 .link {
   text-decoration: none;
   color: #333;
   font-size: 20px;
-  margin: 0 10px; /* Dodaj odstęp między linkami */
-  padding-bottom: 2px; /* Dodaj początkowe podkreślenie tylko na dole */
-  border-bottom: 2px solid transparent; /* Ukryj początkowe podkreślenie */
-  transition: border-bottom 0.3s ease; /* Dodaj płynną animację */
+  margin: 0 10px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.3s ease;
 
-  /* Po najechaniu myszką dodaj podkreślenie */
   &:hover {
     border-bottom: 2px solid #0074d9;
   }
