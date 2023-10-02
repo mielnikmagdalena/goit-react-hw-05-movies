@@ -1,5 +1,5 @@
 // MovieDetails.js
-import React, { useState, useEffect } from 'react';
+/*import React, { useState, useEffect } from 'react';
 import { useParams, Link, Outlet } from 'react-router-dom';
 import {
   getMovieDetails,
@@ -32,6 +32,117 @@ const MovieDetails = () => {
     fetchMovieData();
   }, [movieId]);
   console.log(cast, reviews);
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.movieInfo}>
+        <img
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          alt={movie.title}
+          className={styles.poster}
+        />
+        <div className={styles.movieDetails}>
+          <h1>{movie.title}</h1>
+          <p>{movie.overview}</p>
+          <p>Release Date: {movie.release_date}</p>
+          <p>Rating: {movie.vote_average}</p>
+        </div>
+      </div>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to={`cast`}>Cast</Link>
+            </li>
+            <li>
+              <Link to={`reviews`}>Reviews</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <Outlet />
+      <Link to="/">Back to Home</Link>
+    </div>
+  );
+};
+export default MovieDetails;*/
+// src/pages/MovieDetails/MovieDetails.jsx
+/*import React, { useState, useEffect } from 'react';
+import { useParams, Link, Outlet } from 'react-router-dom';
+import { getMovieDetails } from '../../services/api'; // Importuj funkcję do pobierania szczegółowych informacji o filmie
+import styles from './MovieDetails.module.css'; // Zaimportuj odpowiedni styl CSS
+
+const MovieDetails = () => {
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    const fetchMovieData = async () => {
+      try {
+        const movieData = await getMovieDetails(movieId);
+        setMovie(movieData);
+      } catch (error) {
+        console.error('Error fetching movie details:', error);
+      }
+    };
+
+    fetchMovieData();
+  }, [movieId]);
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.movieInfo}>
+        <img
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          alt={movie.title}
+          className={styles.poster}
+        />
+        <div className={styles.movieDetails}>
+          <h1>{movie.title}</h1>
+          <p>{movie.overview}</p>
+          <p>Release Date: {movie.release_date}</p>
+          <p>Rating: {movie.vote_average}</p>
+        </div>
+      </div>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to={`cast`}>Cast</Link>
+            </li>
+            <li>
+              <Link to={`reviews`}>Reviews</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <Outlet />
+      <Link to="/">Back to Home</Link>
+    </div>
+  );
+};
+export default MovieDetails;*/
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, Outlet } from 'react-router-dom';
+import { getMovieDetails } from '../../services/api'; // Importuj funkcję do pobierania szczegółowych informacji o filmie
+import styles from './MovieDetails.module.css'; // Zaimportuj odpowiedni styl CSS
+
+const MovieDetails = () => {
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    const fetchMovieData = async () => {
+      try {
+        const movieData = await getMovieDetails(movieId);
+        setMovie(movieData);
+      } catch (error) {
+        console.error('Error fetching movie details:', error);
+      }
+    };
+
+    fetchMovieData();
+  }, [movieId]);
 
   return (
     <div className={styles.container}>
