@@ -1,5 +1,3 @@
-// services/api.js
-
 const API_KEY = '904ef6f007cb228dd6ac008b3d697336';
 
 // Funkcja do wykonania zapytania GET na podstawie podanego endpointu
