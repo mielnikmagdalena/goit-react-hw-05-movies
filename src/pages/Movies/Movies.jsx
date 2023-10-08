@@ -1,144 +1,52 @@
-/*import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { searchMovies } from '../../services/api';
-import styles from './Movies.module.css';
+import MoviesList from 'components/MoviesList/MoviesList';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { getMovieByQuery } from 'services/API';
+import Error from 'components/Error/Error';
+import { Loader } from 'components/Loader/Loader';
+import SearchForm from 'components/SearchForm/SearchForm';
 
 const Movies = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [movies, setMovies] = useState(null);
+  const [totalResults, setTotalResults] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const query = searchParams.get('query') ?? '';
 
   useEffect(() => {
-    if (!searchQuery) {
-      setMovies([]);
-      return;
-    }
-
-    const fetchMoviesData = async () => {
+    if (query === '') return;
+    const startFetching = async () => {
+      setLoading(true);
       try {
-        const data = await searchMovies(searchQuery);
-        setMovies(data.results);
+        const { results, total_results } = await getMovieByQuery(query);
+        setMovies(results);
+        setTotalResults(total_results);
       } catch (error) {
-        console.error('Error searching movies:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
-
-    fetchMoviesData();
-  }, [searchQuery]);
-
-  const handleSearchChange = e => {
-    setSearchQuery(e.target.value);
+    startFetching();
+  }, [query]);
+  const setParams = query => {
+    const params = query !== '' ? { query } : {};
+    setSearchParams(params);
   };
-
   return (
-    <div className={styles.container}>
-      <h1>Search Results</h1>
-      <form>
-        <input
-          type="text"
-          className={styles.searchInput}
-          placeholder="Search for movies..."
-          value={searchQuery}
-          onChange={handleSearchChange}
+    <div>
+      <SearchForm setParams={setParams} />
+      {loading && <Loader />}
+      {movies && !loading && <MoviesList movies={movies} />}
+      {totalResults === 0 && (
+        <Error errorText={'Sorry, nothing has been found at your request'} />
+      )}
+      {error && (
+        <Error
+          errorText={`Something went wrong... ${error}. Please try again.`}
         />
-        <button type="submit" className={styles.searchButton}>
-          Search
-        </button>
-      </form>
-      <ul className={styles.movieList}>
-        {movies.map(movie => (
-          <li key={movie.id} className={styles.movieCard}>
-            <Link to={`/movies/${movie.id}`}>
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className={styles.poster}
-              />
-              <h2>{movie.title}</h2>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default Movies;
-*/
-
-import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { searchMovies } from '../../services/api';
-import styles from './Movies.module.css';
-
-const Movies = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [movies, setMovies] = useState([]);
-  const [params, setParams] = useSearchParams();
-
-  useEffect(() => {
-    const queryParam = params.get('query');
-
-    if (queryParam) {
-      setSearchQuery(queryParam);
-    }
-  }, [params]);
-
-  useEffect(() => {
-    if (!searchQuery) {
-      setMovies([]);
-      return;
-    }
-
-    const fetchMoviesData = async () => {
-      try {
-        const data = await searchMovies(searchQuery);
-        setMovies(data.results);
-      } catch (error) {
-        console.error('Error searching movies:', error);
-      }
-    };
-
-    fetchMoviesData();
-  }, [searchQuery]);
-
-  const handleSearchChange = e => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = e => {
-    e.preventDefault();
-    setParams({ query: searchQuery });
-  };
-
-  return (
-    <div className={styles.container}>
-      <h1>Search Results</h1>
-      <form onSubmit={handleSearchSubmit}>
-        <input
-          type="text"
-          className={styles.searchInput}
-          placeholder="Search for movies..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        <button type="submit" className={styles.searchButton}>
-          Search
-        </button>
-      </form>
-      <ul className={styles.movieList}>
-        {movies.map(movie => (
-          <li key={movie.id} className={styles.movieCard}>
-            <Link to={`/movies/${movie.id}`}>
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className={styles.poster}
-              />
-              <h2>{movie.title}</h2>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      )}
     </div>
   );
 };

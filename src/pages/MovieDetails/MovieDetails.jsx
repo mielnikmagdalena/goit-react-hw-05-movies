@@ -1,179 +1,66 @@
-// MovieDetails.js
-/*import React, { useState, useEffect } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import BackLink from 'components/BackLink/BackLink';
+import { useEffect, useState, useRef, Suspense } from 'react';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
+import { Loader } from 'components/Loader/Loader';
+import { getMovieById } from 'services/API';
 import {
-  getMovieDetails,
-  getMovieCredits,
-  getMovieReviews,
-} from '../../services/api';
-import styles from './MovieDetails.module.css';
+  Wrapper,
+  Poster,
+  Text,
+  Title,
+  WrapperInfo,
+  List,
+} from './MovieDetails.styled';
 
 const MovieDetails = () => {
-  const { movieId } = useParams();
+  const { id } = useParams();
   const [movie, setMovie] = useState({});
-  const [cast, setCast] = useState([]);
-  const [reviews, setReviews] = useState([]);
+  const location = useLocation();
+  const backLinkHref = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
-    const fetchMovieData = async () => {
-      try {
-        const movieData = await getMovieDetails(movieId);
-        const castData = await getMovieCredits(movieId);
-        const reviewsData = await getMovieReviews(movieId);
+    getMovieById(id).then(data => setMovie(data));
+  }, [id]);
 
-        setMovie(movieData);
-        setCast(castData.cast);
-        setReviews(reviewsData.results);
-      } catch (error) {
-        console.error('Error fetching movie details:', error);
-      }
-    };
-
-    fetchMovieData();
-  }, [movieId]);
-  console.log(cast, reviews);
-
+  const { poster_path, title, vote_average, overview, genres } = movie;
   return (
-    <div className={styles.container}>
-      <div className={styles.movieInfo}>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          className={styles.poster}
+    <main>
+      <BackLink to={backLinkHref.current} />
+      <Wrapper>
+        <Poster
+          src={poster_path && `https://image.tmdb.org/t/p/w300${poster_path}`}
         />
-        <div className={styles.movieDetails}>
-          <h1>{movie.title}</h1>
-          <p>{movie.overview}</p>
-          <p>Release Date: {movie.release_date}</p>
-          <p>Rating: {movie.vote_average}</p>
+        <div>
+          <Title>{title}</Title>
+          {vote_average && (
+            <Title>User score: {Math.round(vote_average * 10)}%</Title>
+          )}
+
+          <Text>
+            <span>Overview</span>
+            {overview}
+          </Text>
+          <Text>
+            <span>Ganres</span>
+            {genres?.map(({ name }) => name).join(', ')}
+          </Text>
         </div>
-      </div>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to={`cast`}>Cast</Link>
-            </li>
-            <li>
-              <Link to={`reviews`}>Reviews</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <Outlet />
-      <Link to="/">Back to Home</Link>
-    </div>
-  );
-};
-export default MovieDetails;*/
-// src/pages/MovieDetails/MovieDetails.jsx
-/*import React, { useState, useEffect } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
-import { getMovieDetails } from '../../services/api'; // Importuj funkcję do pobierania szczegółowych informacji o filmie
-import styles from './MovieDetails.module.css'; // Zaimportuj odpowiedni styl CSS
-
-const MovieDetails = () => {
-  const { movieId } = useParams();
-  const [movie, setMovie] = useState({});
-
-  useEffect(() => {
-    const fetchMovieData = async () => {
-      try {
-        const movieData = await getMovieDetails(movieId);
-        setMovie(movieData);
-      } catch (error) {
-        console.error('Error fetching movie details:', error);
-      }
-    };
-
-    fetchMovieData();
-  }, [movieId]);
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.movieInfo}>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          className={styles.poster}
-        />
-        <div className={styles.movieDetails}>
-          <h1>{movie.title}</h1>
-          <p>{movie.overview}</p>
-          <p>Release Date: {movie.release_date}</p>
-          <p>Rating: {movie.vote_average}</p>
-        </div>
-      </div>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to={`cast`}>Cast</Link>
-            </li>
-            <li>
-              <Link to={`reviews`}>Reviews</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <Outlet />
-      <Link to="/">Back to Home</Link>
-    </div>
-  );
-};
-export default MovieDetails;*/
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
-import { getMovieDetails } from '../../services/api'; // Importuj funkcję do pobierania szczegółowych informacji o filmie
-import styles from './MovieDetails.module.css'; // Zaimportuj odpowiedni styl CSS
-
-const MovieDetails = () => {
-  const { movieId } = useParams();
-  const [movie, setMovie] = useState({});
-
-  useEffect(() => {
-    const fetchMovieData = async () => {
-      try {
-        const movieData = await getMovieDetails(movieId);
-        setMovie(movieData);
-      } catch (error) {
-        console.error('Error fetching movie details:', error);
-      }
-    };
-
-    fetchMovieData();
-  }, [movieId]);
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.movieInfo}>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          className={styles.poster}
-        />
-        <div className={styles.movieDetails}>
-          <h1>{movie.title}</h1>
-          <p>{movie.overview}</p>
-          <p>Release Date: {movie.release_date}</p>
-          <p>Rating: {movie.vote_average}</p>
-        </div>
-      </div>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to={`cast`}>Cast</Link>
-            </li>
-            <li>
-              <Link to={`reviews`}>Reviews</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <Outlet />
-      <Link to="/">Back to Home</Link>
-    </div>
+      </Wrapper>
+      <WrapperInfo>
+        <Title>Additional information</Title>
+        <List>
+          <li>
+            <Link to="cast">Cast</Link>
+          </li>
+          <li>
+            <Link to="review">Review</Link>
+          </li>
+        </List>
+      </WrapperInfo>
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
+    </main>
   );
 };
 
